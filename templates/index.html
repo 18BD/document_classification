@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Document Type Classifier</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </head>
+  <body>
+    <h1>Document Type Classifier</h1>
+    <div class="form-container">
+      {% if error %}
+      <p class="error">{{ error }}</p>
+      {% endif %}
+      <form method="POST" enctype="multipart/form-data" action="/" id="upload-form">
+        <div id="file-input-container" class="file-input-container">
+          <label for="file-input" id="file-input-label">
+            <span class="drag-text">Drag and drop files here</span>
+            <span class="or-text">or</span>
+            <span class="browse-btn">Browse</span>
+        </label>
+        <input type="file" name="files" id="file-input" multiple>
+      </div>
+      <input type="submit" value="Upload and Classify" id="submit-btn">
+    </form>
+    {% if uploaded %}
+    <p class="upload-feedback">Files uploaded</p>
+    {% endif %}
+  </div>
+  <div class="result-container">
+    {% if document_types %}
+      <h2>Results:</h2>
+      <table>
+        <tr>
+          <th>Document Image</th>
+          <th>Document Type</th>
+        </tr>
+        {% for i in range(document_types|length) %}
+          <tr>
+            <td>
+              <div class="document-image-container">
+                <img src="{{ url_for('static', filename='uploads/' + filenames[i]) }}" alt="Document Image">
+              </div>
+            </td>
+            <td>{{ document_types[i] }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    {% endif %}
+  </div>
+  <div id="preview-container" class="preview-container"></div>
+  <div id="upload-feedback" class="upload-feedback"></div>
+</body>
+</html>
